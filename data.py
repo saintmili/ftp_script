@@ -1,0 +1,5 @@
+host='HOST'
+username='USERNAME'
+password='PASSWORD'
+upload_to_dir='UPLOAD_TO'
+upload_from_dir='UPLOAD_FROM'

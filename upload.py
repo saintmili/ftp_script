@@ -1,7 +1,8 @@
 from ftplib import FTP
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, getsize
 from data import host, username, password, upload_from_dir, upload_to_dir
+from tqdm import tqdm
 
 
 
@@ -28,12 +29,13 @@ def upload(host, username, password, upload_to_dir, upload_from_dir):
             succeed_uploads = 0
             for file in files:
                 f = open(f'{upload_from_dir}/{file}', 'rb')
-                print(f'uploading {file}.({i}/{len(files)})')
-                if session.storbinary("STOR " + file, f):
-                    print(f'{file} uploaded succesfully.')
-                    succeed_uploads += 1
-                else:
-                    print('something happened and {file} didnt upload!')
+                filesize = getsize(f'{upload_from_dir}/{file}')
+                with tqdm(unit='blocks', unit_scale=True, leave=False, miniters=1, desc=f'uploading {file}({i}/{len(files)}).....', total=filesize) as pb:
+                    if session.storbinary("STOR " + file, f, callback=lambda sent: pb.update(len(sent))):
+                        print(f'{file} uploaded succesfully.')
+                        succeed_uploads += 1
+                    else:
+                        print('something happened and {file} didnt upload!')
                 i += 1
                 f.close()
             print(f'{succeed_uploads}/{len(files)} files uploaded successfully.')

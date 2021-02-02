@@ -1,7 +1,7 @@
 from ftplib import FTP
 from os import listdir
 from os.path import isfile, join, getsize
-from data import host, username, password, upload_from_dir, upload_to_dir
+from config import host, username, password, upload_from_dir, upload_to_dir
 from tqdm import tqdm
 
 

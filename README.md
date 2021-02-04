@@ -9,4 +9,4 @@ A simple ftp script for upload and download
 
 ## TODO
 - [x] progress bar when uploading files
-- [ ] progress bar for download
+- [x] progress bar for download
